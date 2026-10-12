@@ -42,17 +42,17 @@ const AppKey = forwardRef<AppKeyHandle, Props>(function AppKey({ position, faces
   return (
     <group position={position}>
       {/* socket */}
-      <RoundedBox args={[1.1, 0.32, 1.1]} radius={0.1} smoothness={5} position={[0, 0.16, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color="#222327" roughness={0.45} />
+      <RoundedBox args={[1.1, 0.32, 1.1]} radius={0.1} smoothness={10} position={[0, 0.16, 0]} castShadow receiveShadow>
+        <meshPhysicalMaterial color="#26272c" roughness={0.5} clearcoat={0.6} clearcoatRoughness={0.3} />
       </RoundedBox>
       {/* key cap (this is what flips) */}
       <group ref={cap} position={[0, CAP_Y, 0]}>
-        <RoundedBox args={[0.88, 0.26, 0.88]} radius={0.09} smoothness={5} castShadow receiveShadow>
-          <meshStandardMaterial color="#2b2c31" roughness={0.4} />
+        <RoundedBox args={[0.88, 0.26, 0.88]} radius={0.09} smoothness={10} castShadow receiveShadow>
+          <meshPhysicalMaterial color="#33343a" roughness={0.45} clearcoat={0.7} clearcoatRoughness={0.25} />
         </RoundedBox>
         <mesh rotation-x={-Math.PI / 2} position={[0, 0.132, 0]}>
-          <planeGeometry args={[0.74, 0.74]} />
-          <meshStandardMaterial ref={mat} map={textures[0]} roughness={0.35} />
+          <planeGeometry args={[0.76, 0.76]} />
+          <meshStandardMaterial ref={mat} map={textures[0]} roughness={0.4} transparent depthWrite={false} />
         </mesh>
       </group>
     </group>

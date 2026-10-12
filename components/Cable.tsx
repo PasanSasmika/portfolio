@@ -32,11 +32,11 @@ export default function Cable({ from, to, color, offset = 0 }: Props) {
   return (
     <group>
       <mesh castShadow>
-        <tubeGeometry args={[curve, 48, 0.045, 10, false]} />
-        <meshStandardMaterial color="#f2f3f5" roughness={0.35} />
+        <tubeGeometry args={[curve, 96, 0.05, 20, false]} />
+        <meshStandardMaterial color="#eceef1" roughness={0.4} />
       </mesh>
       <mesh ref={pulse}>
-        <sphereGeometry args={[0.07, 16, 16]} />
+        <sphereGeometry args={[0.07, 32, 32]} />
         <meshBasicMaterial color={color} toneMapped={false} />
       </mesh>
     </group>

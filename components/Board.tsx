@@ -48,7 +48,7 @@ export default function Board() {
       </mesh>
 
       {/* white slab */}
-      <RoundedBox args={[BOARD, BOARD_H, BOARD]} radius={0.18} smoothness={6} position={[0, BOARD_H / 2, 0]} castShadow receiveShadow>
+      <RoundedBox args={[BOARD, BOARD_H, BOARD]} radius={0.18} smoothness={12} position={[0, BOARD_H / 2, 0]} castShadow receiveShadow>
         <meshStandardMaterial color="#fbfbfc" roughness={0.55} />
       </RoundedBox>
       {/* dotted top */}
@@ -59,7 +59,7 @@ export default function Board() {
 
       {TILES.map(([x, z, w, d], i) => (
         <RoundedBox key={i} args={[w, 0.1, d]} radius={0.05} position={[x, BOARD_H + 0.05, z]} castShadow receiveShadow>
-          <meshStandardMaterial color="#ececef" roughness={0.6} />
+          <meshStandardMaterial color="#e4e5ea" roughness={0.6} />
         </RoundedBox>
       ))}
 

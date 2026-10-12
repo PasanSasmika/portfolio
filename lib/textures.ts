@@ -1,16 +1,23 @@
 import * as THREE from "three";
 
+// every canvas is drawn at RES x its logical size so textures stay crisp when supersampled
+const RES = 4;
+
 function canvas(w: number, h: number) {
   const c = document.createElement("canvas");
-  c.width = w;
-  c.height = h;
-  return { c, ctx: c.getContext("2d")! };
+  c.width = w * RES;
+  c.height = h * RES;
+  const ctx = c.getContext("2d")!;
+  ctx.scale(RES, RES);
+  return { c, ctx };
 }
 
 function toTexture(c: HTMLCanvasElement) {
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
+  t.anisotropy = 16;
+  t.minFilter = THREE.LinearMipmapLinearFilter;
+  t.generateMipmaps = true;
   return t;
 }
 
@@ -29,9 +36,9 @@ export function dotGridTexture(repeat: number) {
   const { c, ctx } = canvas(64, 64);
   ctx.fillStyle = "#f6f7f9";
   ctx.fillRect(0, 0, 64, 64);
-  ctx.fillStyle = "#cfd2d8";
+  ctx.fillStyle = "#bfc3cc";
   ctx.beginPath();
-  ctx.arc(32, 32, 3, 0, Math.PI * 2);
+  ctx.arc(32, 32, 4, 0, Math.PI * 2);
   ctx.fill();
   const t = toTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
@@ -41,12 +48,12 @@ export function dotGridTexture(repeat: number) {
 
 /** Light-blue floor grid that fades out at the edges */
 export function floorGridTexture() {
-  const size = 1024;
+  const size = 512;
   const { c, ctx } = canvas(size, size);
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, size, size);
-  ctx.strokeStyle = "#cfe0f6";
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#c2d7f5";
+  ctx.lineWidth = 1.5;
   const step = size / 24;
   for (let i = 0; i <= 24; i++) {
     ctx.beginPath();
@@ -72,14 +79,19 @@ export type IconKind =
   | "calendar" | "nodes" | "cloud" | "asterisk" | "bolt"
   | "video" | "chat" | "sync" | "wave" | "grid" | "stack" | "pin";
 
-/** Original placeholder app icons (white glyph on a coloured tile) */
+/** Original placeholder app icons (white glyph on a coloured tile, transparent outside the tile) */
 export function iconTexture(kind: IconKind, bg: string) {
   const S = 256;
   const { c, ctx } = canvas(S, S);
-  ctx.fillStyle = "#26272b";
-  ctx.fillRect(0, 0, S, S);
+  // subtle top-to-bottom sheen so the tile doesn't read as a flat sticker
+  const sheen = ctx.createLinearGradient(0, 8, 0, S - 8);
+  sheen.addColorStop(0, "rgba(255,255,255,0.16)");
+  sheen.addColorStop(0.55, "rgba(255,255,255,0)");
+  sheen.addColorStop(1, "rgba(0,0,0,0.12)");
+  roundRect(ctx, 8, 8, S - 16, S - 16, 50);
   ctx.fillStyle = bg;
-  roundRect(ctx, 20, 20, S - 40, S - 40, 44);
+  ctx.fill();
+  ctx.fillStyle = sheen;
   ctx.fill();
 
   ctx.strokeStyle = "#fff";

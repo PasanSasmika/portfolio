@@ -11,7 +11,7 @@ export type HubHandle = {
   cube: THREE.Group;
 };
 
-const DARK = "#2a2b30";
+const DARK = "#2c2d33";
 const BASE_H = 0.35;
 
 function Vents({ position }: { position: [number, number, number] }) {
@@ -40,8 +40,8 @@ const Hub = forwardRef<HubHandle, { position: [number, number, number] }>(functi
   return (
     <group position={position}>
       {/* base */}
-      <RoundedBox args={[2.8, BASE_H, 2.8]} radius={0.1} smoothness={5} position={[0, BASE_H / 2, 0]} castShadow receiveShadow>
-        <meshStandardMaterial color={DARK} roughness={0.45} metalness={0.1} />
+      <RoundedBox args={[2.8, BASE_H, 2.8]} radius={0.1} smoothness={10} position={[0, BASE_H / 2, 0]} castShadow receiveShadow>
+        <meshPhysicalMaterial color={DARK} roughness={0.5} clearcoat={0.6} clearcoatRoughness={0.3} />
       </RoundedBox>
       {/* dark opening under the lid */}
       <mesh rotation-x={-Math.PI / 2} position={[0, BASE_H + 0.002, 0]}>
@@ -66,12 +66,12 @@ const Hub = forwardRef<HubHandle, { position: [number, number, number] }>(functi
       {/* sliding lid halves */}
       <group ref={lidL} position={[-0.36, BASE_H + 0.035, 0]}>
         <RoundedBox args={[0.72, 0.07, 1.44]} radius={0.03} castShadow receiveShadow>
-          <meshStandardMaterial color="#323338" roughness={0.4} />
+          <meshPhysicalMaterial color="#3d3e45" roughness={0.45} clearcoat={0.6} clearcoatRoughness={0.3} />
         </RoundedBox>
       </group>
       <group ref={lidR} position={[0.36, BASE_H + 0.035, 0]}>
         <RoundedBox args={[0.72, 0.07, 1.44]} radius={0.03} castShadow receiveShadow>
-          <meshStandardMaterial color="#323338" roughness={0.4} />
+          <meshPhysicalMaterial color="#3d3e45" roughness={0.45} clearcoat={0.6} clearcoatRoughness={0.3} />
         </RoundedBox>
       </group>
 
